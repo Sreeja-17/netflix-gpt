@@ -4,14 +4,15 @@ import { checkValidData } from "../utils/validate";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../utils/firebase";
 import { signInWithEmailAndPassword, updateProfile } from "firebase/auth";
-import { useNavigate } from "react-router-dom";
+
 import { useDispatch } from "react-redux";
 import { addUser } from "../utils/userSlice";
+import { USER_IMAGE } from "../utils/constants";
 
 const Login = () => {
     const [isSignInForm, setIsSignInForm] = useState(true);
     const [errorMessage, setErrorMessage] = useState(null);
-    const navigate = useNavigate();
+    
     const name = useRef(null);
     const email = useRef(null);
     const password = useRef(null);
@@ -34,29 +35,24 @@ const Login = () => {
                 auth,
                 email.current.value,
                 password.current.value)
+                //name.current.value)
                 .then((userCredential) => {
                     const user = userCredential.user;
                     updateProfile(user, {
                         displayName: name.current.value,
+                        photoURL: USER_IMAGE,
                     }).then(() => {
-                        const { uid, email, displayName } = auth.currentUser;
+                        const { uid, email, displayName,photoURL } = auth.currentUser;
                         dispatch(
                             addUser({
-                                uid: uid, email: email, displayName: displayName
+                                uid: uid, email: email, displayName: displayName , photoURL:photoURL
                             }));
-
-
-                        navigate("/browse");
-
 
                     }).catch((error) => {
                         setErrorMessage(error.message)
                     });
 
                     //console.log(user)
-                    console.log("Successfull");
-
-
 
                 })
                 .catch((error) => {
@@ -73,8 +69,7 @@ const Login = () => {
                     // Signed in 
                     const user = userCredential.user;
                     ///console.log(user)
-                    console.log("Successfull")
-                    navigate("/browse");
+
 
                     // ...
                 })
