@@ -12,8 +12,11 @@ import { BG_IMAGE, USER_IMAGE } from "../utils/constants";
 const Login = () => {
     const [isSignInForm, setIsSignInForm] = useState(true);
     const [errorMessage, setErrorMessage] = useState(null);
-    
+
     const name = useRef(null);
+
+
+
     const email = useRef(null);
     const password = useRef(null);
     const dispatch = useDispatch();
@@ -42,10 +45,10 @@ const Login = () => {
                         displayName: name.current.value,
                         photoURL: USER_IMAGE,
                     }).then(() => {
-                        const { uid, email, displayName,photoURL } = auth.currentUser;
+                        const { uid, email, displayName, photoURL } = auth.currentUser;
                         dispatch(
                             addUser({
-                                uid: uid, email: email, displayName: displayName , photoURL:photoURL
+                                uid: uid, email: email, displayName: displayName, photoURL: photoURL
                             }));
 
                     }).catch((error) => {
@@ -92,14 +95,14 @@ const Login = () => {
             <Header />
             <div className="absolute">
 
-                <img
+                <img className="h-screen object-cover md:w-full md:h-full md:object-cover"
                     src={BG_IMAGE}
                     alt="Background Logo"
                 />
             </div>
             <form onSubmit={(e) => e.preventDefault()}
-                className="absolute w-3/12 bg-black mx-auto right-0 left-0 p-12 my-36 text-white  bg-opacity-80 rounded-md">
-                <h1 className="font-bold text-3xl pb-5 "> {isSignInForm ? "Sign In " : " SignUp "}</h1>
+                className="absolute my-32 w-full md:w-3/12 bg-black mx-auto right-0 left-0 p-12 md:my-36 text-white  bg-opacity-80 rounded-md">
+                <h1 className="font-bold  text-2xl md:text-3xl pb-5 "> {isSignInForm ? "Sign In " : " SignUp "}</h1>
 
                 {!isSignInForm &&
                     <input

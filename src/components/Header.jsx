@@ -6,14 +6,16 @@ import { addUser, removeUser } from "../utils/userSlice";
 import Browse from "./Browse";
 import { useEffect } from "react";
 import { LOGO } from "../utils/constants";
-import { toggleGptSearchView } from "../utils/gptSlice";
+import { toggleGeminiSearchView } from "../utils/geminiSlice";
 import { SUPPORTED_LANGUAGES } from "../utils/constants";
+import { changeLanguage } from "../utils/configSlice";
 
 
 
 const Header = () => {
     const navigate = useNavigate();
     const user = useSelector(store => store.user);
+    const showGeminiSearch = useSelector((store) => store.gemini.showGeminiSearch)
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -40,8 +42,8 @@ const Header = () => {
         return () => unsubscribe();
 
     }, [])
-    const handleGptSearchClick = () => {
-        dispatch(toggleGptSearchView());
+    const handleGeminiSearchClick = () => {
+        dispatch(toggleGeminiSearchView());
     }
 
     const handleSignOut = () => {
@@ -54,37 +56,43 @@ const Header = () => {
 
             });
     }
+    const handleLanguageChange = (e) => {
+        dispatch(changeLanguage(e.target.value))
+
+    }
 
     return (
         <div>
-            <div className="absolute px-8 py-1 bg-gradient-to-b from-black z-10 w-screen flex justify-between">
+            <div className="flex flex-col md:flex-row absolute px-3 py-1 md:bg-gradient-to-b md:from-black z-10 w-screen justify-between">
                 <img
-                    className="w-44 mt-24" src={LOGO}
+                    className="w-44  mx-auto md:mt-24 md:mx-0 " src={LOGO}
                     alt="Netflix Logo"></img>
 
 
                 {user && (
-                    <div className=" flex p-2 mt-24">
-                        <select className="p-2 bg-gray-900 text-white m-2 rounded-sm border border-white border-solid ">
-                            {SUPPORTED_LANGUAGES.map(lang =>
-                                <option key={lang.identifier}
-                                    value={lang.identifier}>
-                                    {lang.name}</option>)
+                    <div className=" justify-between flex p-1 md:mt-24 ">
+                        {showGeminiSearch && (
+                            <select className="p-2 bg-gray-900 text-white m-2 rounded-sm border border-white border-solid " onChange={handleLanguageChange}>
+                                {SUPPORTED_LANGUAGES.map(lang =>
+                                    <option key={lang.identifier}
+                                        value={lang.identifier}>
+                                        {lang.name}</option>)
 
-                            }
+                                }
 
-                        </select>
-                        <button className="py-2 px-3 mx-4 my-2 bg-purple-800  text-white rounded-md" onClick={handleGptSearchClick}>GPT Search</button>
-                        <img className=" w-12 h-12" src={user?.photoURL}
+                            </select>
+                        )}
+                        <button className=" py-1 px-1 my-12 mt-0 text-sm mx-2 text-md md:py-2 md:px-3 md:mx-4 md:my-2 bg-purple-800  text-white rounded-md" onClick={handleGeminiSearchClick}> {showGeminiSearch ? "HomePage" : "Gemini Search"}</button>
+                        <img className=" hidden md:block w-12 h-12 mt-2" src={user?.photoURL}
                             alt="usericon"></img>
-                        <button onClick={handleSignOut} className="px-2 font-bold z-10 text-white"> Sign Out</button>
+                        <button onClick={handleSignOut} className=" -mt-14 md:mt-5 md:px-2 font-bold z-10 text-white"> Sign Out</button>
 
                     </div>
                 )}
 
             </div>
             <div >
-                <h1 className="absolute top-14 right-28 p-2 font-bold bg-blend-color text-white text-lg h-16 w-16 ...">
+                <h1 className=" hidden md:block  absolute top-14 right-24 p-2 font-bold bg-blend-color text-white text-lg h-16 w-16 ...">
                     {user?.displayName}</h1>
             </div>
         </div>

@@ -7,6 +7,8 @@ import {API_OPTIONS} from "../utils/constants"
 const useMovieTrailer = (movieId) => {
     const trailerVideo = useSelector((store) => store.movies.trailerVideo);
     const dispatch = useDispatch();
+    console.log(movieId)
+    if(!movieId) return null;
 
 
     const getMovieVideos = async () => {
@@ -16,10 +18,12 @@ const useMovieTrailer = (movieId) => {
                 +"/videos?language=en-US",
                 API_OPTIONS
             );
+            
         const json = await data.json();
         const filterData = json.results.filter((video) => video.type === "Trailer");
         const trailer = filterData.length ? filterData[0] : json.results[0];
         dispatch(addTrailerVideo(trailer));
+        
     };
     useEffect(() => {
         !trailerVideo && getMovieVideos();

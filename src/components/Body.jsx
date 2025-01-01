@@ -2,6 +2,7 @@ import Login from "./Login";
 import Browse from "./Browse";
 import { createBrowserRouter } from "react-router-dom";
 import { RouterProvider } from "react-router-dom";
+import PosterVideos from "./posterVideos";
 
 
 
@@ -18,6 +19,11 @@ const Body = () => {
             path: "/browse",
             element: <Browse />
         },
+
+        {
+            path:"/video",
+            element:<PosterVideos/>
+        }
     ]);
 
     return (
