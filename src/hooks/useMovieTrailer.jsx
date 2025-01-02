@@ -7,7 +7,7 @@ import {API_OPTIONS} from "../utils/constants"
 const useMovieTrailer = (movieId) => {
     const trailerVideo = useSelector((store) => store.movies.trailerVideo);
     const dispatch = useDispatch();
-    console.log(movieId)
+    
     if(!movieId) return null;
 
 

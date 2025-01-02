@@ -1,22 +1,23 @@
 import MovieCard from "./MovieCard";
-//import PosterVideos from "./posterVideos";
 
-
-const MovieList = ({ title,movies }) => {
-
-
-    if (!movies) return null
+const MovieList = ({ title, movies }) => {
+    if(!movies) return null;
+    //console.log(movies)
 
     return (
         <div className="p-6">
-            <h1 className=" text-lg md:text-3xl py-4 text-white">{title}</h1>
+            <h1 className=" text-lg md:text-3xl py-4 text-white">
+                {title}
+            </h1>
 
             <div className="flex overflow-x-scroll">
-                
-                        <div className="flex">
-                            {movies.map(movies => <MovieCard key={movies.id} posterPath={movies.poster_path} movieId={movies.Id}/>)}
+                <div className="flex">
+                    {movies.map(movie =>
+                        <MovieCard key={movie.id}
+                            posterPath={movie.poster_path}
+                            movieId={movie.id} />)}
 
-                        </div> 
+                </div>
             </div>
         </div>
     )
